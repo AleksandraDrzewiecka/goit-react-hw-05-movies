@@ -1,0 +1,30 @@
+.noActive {
+    text-decoration: none;
+    text-shadow: 1px 1px 2px #333;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 500;
+    font-size: 25px;
+    color: black;
+    display: block;
+    margin: 20px;
+    text-align: left;
+    width: 40%;
+}
+
+.noActive:hover {
+    cursor: pointer;
+    color:#d21e1e;
+}
+
+.active {
+    text-decoration: none;
+    text-shadow: 1px 1px 2px #333;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 500;
+    font-size: 25px;
+    color: #d21e1e;
+    display: block;
+    text-align: left;
+    width: 40%;
+    margin: 20px;
+} 
