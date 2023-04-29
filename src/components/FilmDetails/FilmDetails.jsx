@@ -73,7 +73,7 @@ const FilmDetails = () => {
           </p>
         </div>
       </div>
-      <button onClick={showCast}>Show cast</button>
+      <button onClick={showCast}>Cast</button>
       <button onClick={showReviews}>Reviews</button>
     </div>
   );
