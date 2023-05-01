@@ -1,42 +1,38 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
-const Reviews = () => {
+const FilmDetails = () => {
   const { filmId } = useParams();
-  const [info, setInfo] = useState([]);
+  const [details, setDetails] = useState({});
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/';
+
   const id = filmId;
 
   useEffect(() => {
-    const getInfo = async () => {
+    const getDetails = async () => {
       const apiKey = '76df6c5653ddfcebddeb9411f9024556';
       const response = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${apiKey}`
+        `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`
       );
-      console.log(response.data.results);
-      setInfo(response.data.results);
+      setDetails(response.data);
     };
 
-    getInfo();
+    getDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <>
-      {info.length === 0 ? (
-        <p>No reviews</p>
-      ) : (
-        info.map(item => {
-          return (
-            <div key={item.id}>
-              <h4>{item.author}</h4>
-              <p>{item.content}</p>
-            </div>
-          );
-        })
-      )}
-    </>
+    <div>
+      <h2>{details.title}</h2>
+      <p>{details.overview}</p>
+
+      <Link to="reviews" state={{ from: backLinkHref }}>
+      </Link>
+    </div>
   );
 };
 
-export default Reviews;
+export default FilmDetails;

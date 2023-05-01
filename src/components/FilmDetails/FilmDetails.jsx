@@ -1,32 +1,26 @@
 import axios from 'axios';
 import css from './FilmDetails.module.css';
 import { useEffect, useState } from 'react';
-const {
-  useParams,
-  useNavigate,
-  useLocation,
-  // eslint-disable-next-line no-unused-vars
-  Link,
-} = require('react-router-dom');
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+
+const { useParams } = require('react-router-dom');
 
 const FilmDetails = () => {
   const { filmId } = useParams();
-  const [movieId] = useState(filmId);
   const [movieInfo, setMovieInfo] = useState({});
-
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
   const location = useLocation();
+  const [movieId] = useState(filmId);
+  const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
     const getMovieInfo = async () => {
       const apiKey = '76df6c5653ddfcebddeb9411f9024556';
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`
+          `https://api.themoviedb.org/3/movie/${filmId}?api_key=${apiKey}`
         );
         setMovieInfo(response.data);
-        console.log(response.data);
       } catch (error) {
         return;
       }
@@ -35,7 +29,7 @@ const FilmDetails = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const showCast = () => {
+   const showCast = () => {
     navigate(`/movies/${movieId}/cast`);
   };
 
@@ -43,15 +37,9 @@ const FilmDetails = () => {
     navigate(`/movies/${movieId}/reviews`);
   };
 
-  const backLinkHref = () => {
-    // return location.state?.from ?? '/';
-    navigate(-1);
-  };
   return (
     <div className={css.background}>
-      {/* <Link to="/">Go Home</Link> */}
-      {/* <Link to={backLinkHref()}>Go Back</Link> */}
-      <button onClick={backLinkHref}>Go back</button>
+      <button onClick={() => navigate(backLinkHref)}>Go Back</button>
       <div className={css.wrapper}>
         <div>
           <img
@@ -73,8 +61,12 @@ const FilmDetails = () => {
           </p>
         </div>
       </div>
-      <button onClick={showCast}>Cast</button>
+      <button onClick={showCast}>Show cast</button>
+      <Link to="cast" state={{ from: backLinkHref }}>
+      </Link>
       <button onClick={showReviews}>Reviews</button>
+      <Link to="reviews" state={{ from: backLinkHref }}>
+      </Link>
     </div>
   );
 };

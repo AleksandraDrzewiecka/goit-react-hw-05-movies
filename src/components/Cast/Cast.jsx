@@ -1,41 +1,39 @@
 import axios from "axios";
-const { useEffect, useState } = require("react");
-const { useParams } = require("react-router-dom")
+import { useEffect, useState } from "react";
+import { useParams, useLocation, Link } from "react-router-dom";
 
 const Cast = () => {
-    const { filmId } = useParams()
-    const [cast, setCast] = useState([])
-    
-    const id = filmId
+  const { filmId } = useParams();
+  const [cast, setCast] = useState([]);
 
-    useEffect(() => {
-        const getCast = async() => {
-            const apiKey = '76df6c5653ddfcebddeb9411f9024556';
-            const response = await axios.get(
-                `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
-            )
-            
-            setCast(response.data.cast)
-            
-        }
-        getCast()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? "/";
 
-    
+  useEffect(() => {
+    const getCast = async () => {
+      const apiKey = "76df6c5653ddfcebddeb9411f9024556";
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/movie/${filmId}/credits?api_key=${apiKey}`
+      );
+      setCast(response.data.cast);
+    };
+    getCast();
+  }, [filmId]);
 
-    return (
-        <>
-        {cast.map((item) => {
-          return(
-            <div key={item.id}>
+  return (
+    <>
+      {cast.map((item) => {
+        return (
+          <div key={item.id}>
+            <Link to="cast" state={{ from: backLinkHref }}>
+            </Link>
             <h4>{item.character}</h4>
             <p>{item.name}</p>
-            </div>
-          )  
-        })}
-        </>
-    )
-}
+          </div>
+        );
+      })}
+    </>
+  );
+};
 
-export default Cast
+export default Cast;
