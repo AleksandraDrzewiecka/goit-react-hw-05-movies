@@ -10,7 +10,6 @@ const FilmDetails = () => {
   const [movieInfo, setMovieInfo] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
-  const [movieId] = useState(filmId);
   const backLinkHref = location.state?.from ?? '/';
 
   useEffect(() => {
@@ -28,14 +27,6 @@ const FilmDetails = () => {
     getMovieInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-   const showCast = () => {
-    navigate(`/movies/${movieId}/cast`);
-  };
-
-  const showReviews = () => {
-    navigate(`/movies/${movieId}/reviews`);
-  };
 
   return (
     <div className={css.background}>
@@ -61,11 +52,11 @@ const FilmDetails = () => {
           </p>
         </div>
       </div>
-      <button onClick={showCast}>Show cast</button>
       <Link to="cast" state={{ from: backLinkHref }}>
+        <button>Show cast</button>
       </Link>
-      <button onClick={showReviews}>Reviews</button>
       <Link to="reviews" state={{ from: backLinkHref }}>
+        <button>Reviews</button>
       </Link>
     </div>
   );
